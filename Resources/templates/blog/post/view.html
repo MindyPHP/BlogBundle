@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [['name' => 'Блог', 'url' => url('blog_post_list')], ['name' => post]] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_8">
+                <div class="b-post">
+                    <h1 class="b-title">{{ post }}</h1>
+                    <time class="b-heading__caption" datetime="{{ post.published_at }}">
+                        Опубликовано: {{ post.published_at|date('Y-m-d') }}{% if post.author %}, Автор: {{ post.author }}{% endif %}
+                    </time>
+                    <article class="b-typeset">
+                        {{ post.content|safe }}
+                    </article>
+                    <div>
+                        Вам понравилась статья?
+                        <a data-rating data-target="[data-rating=yes_{{ post.id }}]" class="b-link"
+                           href="{{ url('rating_vote', ['type' => 'blog_post', 'id' => post.id, 'vote' => 1]) }}">Да</a>
+                        <span data-rating="yes_{{ post.id }}">{{ post.getRatingYes() }}</span> /
+                        <a data-rating data-target="[data-rating=no_{{ post.id }}]" class="b-link"
+                           href="{{ url('rating_vote', ['type' => 'blog_post', 'id' => post.id, 'vote' => 0]) }}">Нет</a>
+                        <span data-rating="no_{{ post.id }}">{{ post.getRatingNo() }}</span>
+                    </div>
+                </div>
+
+                <div class="b-divider b-divider_divider"></div>
+
+                <div class="b-wrapper">
+                    <div class="b-row">
+                        <div class="b-col b-col_small_12">
+                            {% include "comment/block.html" with ['comment_form' => comment_form, 'comments' => comments] %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-col b-col_small_4">
+                <div class="b-blog__sidebar">
+                    {% if last_posts|length > 0 %}
+                        <div class="b-info">
+                            <div class="b-info__label">
+                                Последние записи
+                            </div>
+                            {% for last in last_posts %}
+                                <a href="{{ url('blog_post_view', ['slug' => last.slug]) }}"
+                                   class="b-info__text">{{ last }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="b-space b-space_small"></div>
+                <div>
+                    <a class="b-blog__social" href="https://twitter.com/studio107ru">
+                        <i class="b-blog__icon socicon-twitter"></i> Мы в Twitter
+                    </a>
+                    <a class="b-blog__social" href="https://twitter.com/studio107ru">
+                        <i class="b-blog__icon socicon-github"></i> Мы на Github
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

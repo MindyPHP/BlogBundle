@@ -1,0 +1,11 @@
+blog_post_list:
+    path: /
+    defaults:
+        _controller: BlogBundle:Post:list
+
+blog_post_view:
+    path: /{slug}
+    defaults:
+        _controller: BlogBundle:Post:view
+    requirements:
+        slug: '[a-zA-Z0-9-_]+'

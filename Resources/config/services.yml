@@ -1,0 +1,10 @@
+services:
+    mindy.blog.admin.post:
+        class: Mindy\Bundle\BlogBundle\Admin\PostAdmin
+        tags:
+            - { name: admin.admin, slug: blog_post }
+
+    mindy.blog.admin.category:
+        class: Mindy\Bundle\BlogBundle\Admin\CategoryAdmin
+        tags:
+            - { name: admin.admin, slug: blog_category }

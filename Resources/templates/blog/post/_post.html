@@ -1,0 +1,36 @@
+<div class="b-post">
+    <h2 class="b-heading">
+        <a href="{{ url('blog_post_view', ['slug' => post.slug]) }}">{{ post.name }}</a>
+    </h2>
+    <time class="b-heading__caption" datetime="{{ post.published_at }}">
+        Опубликовано: {{ post.published_at|date('Y-m-d') }}{% if post.author %}, Автор: {{ post.author }}{% endif %}
+    </time>
+
+    <article class="b-post__content b-typeset">{{ post.content_short }}</article>
+
+    <p><a href="{{ url('blog_post_view', ['slug' => post.slug]) }}"
+          class="b-button">Подробнее...</a></p>
+</div>
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ post }}",
+    {%- if post.image -%}
+    "image": "{{ post.image|imagine_filter('blog_post') }}",
+    {%- endif -%}
+    "editor": "{{ post.author }}",
+    "genre": "web development, marketing, design, search engine optimization",
+    "publisher": "Studio107",
+    "url": "{{ url('blog_post_view', ['slug' => post.slug], 0) }}",
+    "datePublished": "{{ post.published_at }}",
+    "dateCreated": "{{ post.created_at }}",
+    "dateModified": "{{ post.updated_at }}",
+    "description": "{{ post.content_short }}",
+    "articleBody": "{{ post.content }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ post.author }}"
+    }
+}
+</script>

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    ['name' => 'Блог']
+    ] %}
+    {% parent %}
+{% endblock %}
+
+{% block content %}
+    <div class="b-wrapper">
+        <div class="b-row">
+            <div class="b-col b-col_small_12">
+                <div class="blog-container">
+                    <h1 class="b-title">Блог</h1>
+
+                    {% if posts|length > 0 %}
+                        {% for post in posts %}
+                            {% include "blog/post/_post.html" %}
+                        {% endfor %}
+
+                        <div class="pager-holder">
+                            {{ pagination_render(pager)|safe }}
+                        </div>
+                    {% else %}
+                        <p>Записи отсутствуют</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
